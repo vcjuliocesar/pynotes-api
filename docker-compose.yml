@@ -1,0 +1,9 @@
+services:
+  pynotes-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/
+    ports:
+      - '8080:5000'
