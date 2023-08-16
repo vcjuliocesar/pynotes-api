@@ -9,6 +9,7 @@ from jwt_manager import create_token,validate_token
 from starlette.requests import Request
 from config.database import engine,Base,Session
 from models.note import Note as NoteModel
+from middlewares.error_handler import ErrorHandler
 
 
 notes = [
@@ -64,6 +65,8 @@ app = FastAPI()
 app.title = "Platzi project"
 
 app.version = "0.0.1"
+
+app.add_middleware(ErrorHandler)
 
 Base.metadata.create_all(bind=engine)
 
