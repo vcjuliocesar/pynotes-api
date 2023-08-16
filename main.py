@@ -5,9 +5,8 @@ from fastapi.security.http import HTTPAuthorizationCredentials
 from pydantic import BaseModel,Field
 from typing import List, Optional
 from jwt_manager import create_token,validate_token
-
 from starlette.requests import Request
-
+from config.database import engine,Base
 
 
 notes = [
@@ -63,6 +62,8 @@ app = FastAPI()
 app.title = "Platzi project"
 
 app.version = "0.0.1"
+
+Base.metadata.create_all(bind=engine)
 
 @app.post('/login',tags=['Auth'],status_code=status.HTTP_200_OK)
 def login(user:User):
