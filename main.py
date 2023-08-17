@@ -1,6 +1,6 @@
 from fastapi import FastAPI,HTTPException,status
 from fastapi.security import HTTPBearer
-from jwt_manager import validate_token
+from utils.jwt_manager import validate_token
 from starlette.requests import Request
 from config.database import engine,Base
 from middlewares.error_handler import ErrorHandler
