@@ -1,21 +1,7 @@
 from fastapi import status,APIRouter
 from fastapi.responses import JSONResponse
-from pydantic import BaseModel,Field
-from typing import Optional
 from jwt_manager import create_token
-
-class User(BaseModel):
-    id:Optional[int] = Field(default=None)
-    email:str
-    password:str
-    
-    class Config:
-        json_schema_extra = {
-            "example":{
-                'email':'jhon.doe@example.com',
-                'password':'123'
-            }
-        }
+from schemas.user import User
 
 user_router = APIRouter()
 
