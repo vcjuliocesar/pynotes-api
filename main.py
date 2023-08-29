@@ -1,8 +1,5 @@
-from fastapi import FastAPI,HTTPException,status
-from fastapi.security import HTTPBearer
-from utils.jwt_manager import validate_token
-from starlette.requests import Request
-from config.database import engine,Base
+from fastapi import FastAPI
+from config.database import engine,base
 from middlewares.error_handler import ErrorHandler
 from routers.note import note_router
 from routers.user import user_router
@@ -20,7 +17,7 @@ notes = [
         'content':'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
     }
 ]
-        
+
 app = FastAPI()
 
 app.title = "Platzi project"
@@ -33,8 +30,8 @@ app.include_router(user_router)
 
 app.include_router(note_router)
 
+base.metadata.create_all(bind=engine)
 
-Base.metadata.create_all(bind=engine)
 
 
     

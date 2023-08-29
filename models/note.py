@@ -1,7 +1,7 @@
-from config.database import Base
+from config.database import base
 from sqlalchemy import Column,Integer,String
 
-class Note(Base):
+class Note(base):
     
     __tablename__ = "notes"
     
