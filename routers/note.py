@@ -9,7 +9,7 @@ from services.note import NoteService
 
 note_router = APIRouter()
 
-@note_router.get('/',tags=['Notes'],response_model=List[Note],status_code=status.HTTP_200_OK)
+@note_router.get('/',tags=['Notes'],response_model=List[Note],status_code=status.HTTP_200_OK,dependencies=[Depends(JWTBearer())])
 def get_notes() -> List[Note]:
     db = Session()
     result = NoteService(db).get_notes()
@@ -18,7 +18,7 @@ def get_notes() -> List[Note]:
     
     return JSONResponse(status_code=status.HTTP_200_OK,content=jsonable_encoder(result))
 
-@note_router.get('/notes/{id}',tags=['Notes'],response_model=Note,status_code=status.HTTP_200_OK)
+@note_router.get('/notes/{id}',tags=['Notes'],response_model=Note,status_code=status.HTTP_200_OK,dependencies=[Depends(JWTBearer())])
 def get_note(id:int = Path(le=2000)) ->Note :
     db = Session()
     result = NoteService(db).get_note(id)
