@@ -1,19 +1,12 @@
 from models.user import User as UserModel
 from schemas.user import User,UserBase,UserCreate
-from passlib.context import CryptContext
+from services.auth import Auth
 
 class UserService():
     
     def __init__(self,db) -> None:
         self.db = db
-        self.pwd_context = CryptContext(schemes=['bcrypt'],deprecated="auto")
-    
-    def verify_password(self,password:str,hash:str):
-        return self.pwd_context.verify(password,hash)
-    
-    def get_password(self,password:str):
-        return self.pwd_context.hash(password) 
-
+        
     def get_user(self,id:int):
         return self.db.query(UserModel).filter(UserModel.id == id).first()
     
@@ -21,9 +14,9 @@ class UserService():
         return self.db.query(UserModel).filter(UserModel.email == email).first()
     
     def create_user(self,user:UserCreate):
-        print(self.get_password(user.password))
-        
+        user.password = Auth().get_password(user.password)
+        new_user = UserModel(**user.dict())
+        self.db.add(new_user)
+        self.db.commit()
         return
-        #hashed_password = ""
-        #new_user = UserModel() 
         

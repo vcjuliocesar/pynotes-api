@@ -4,20 +4,21 @@ from typing import Optional
 
 class UserBase(BaseModel):
     email:str
-
-class UserCreate(UserBase):
-    password:str
-    
-class User(UserBase):
-    id:Optional[int] = Field(default=None)
-    name:str
-    is_active:bool
-    
     class Config:
-       orm_mode = True
-       json_schema_extra = {
+        json_schema_extra = {
             "example":{
                 'email':'jhon.doe@fake.com',
                 'password':'admin123@'
             }
         }
+
+class UserCreate(UserBase):
+    password:str = Field(min_length=8,max_length=16)
+        
+    
+class User(UserBase):
+    id:Optional[int] = Field(default=None)
+    is_active:bool
+    
+    class Config:
+       orm_mode = True
