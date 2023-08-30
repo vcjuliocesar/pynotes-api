@@ -15,3 +15,9 @@ class User(UserBase):
     
     class Config:
        orm_mode = True
+       json_schema_extra = {
+            "example":{
+                'email':'jhon.doe@fake.com',
+                'password':'admin123@'
+            }
+        }
