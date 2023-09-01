@@ -4,9 +4,12 @@ from utils.jwt_manager import validate_token
 from starlette.requests import Request
 from config.database import engine,Base
 from middlewares.error_handler import ErrorHandler
+from config.config import ProductionConfig,DevelopmentConfig
+from utils.settings import Settings
 from routers.note import note_router
 from routers.user import user_router
 
+settings = Settings()
 
 notes = [
     {
@@ -26,6 +29,11 @@ app = FastAPI()
 app.title = "Platzi project"
 
 app.version = "0.0.1"
+
+if settings.ENVIROMENT == "production":
+    app.config = ProductionConfig
+else:
+    app.config = DevelopmentConfig
 
 app.add_middleware(ErrorHandler)
 
