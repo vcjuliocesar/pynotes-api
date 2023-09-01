@@ -1,6 +1,9 @@
 # PyNotes-API
 Welcome to the PyNotes-API repository! This is a simple guide to help you get started with setting up and running the PyNotes-API project.
 
+## Actual version
+The actual version is [v0.1.0](https://github.com/vcjuliocesar/pynotes-api/releases/tag/v0.1.0).
+
 ## Getting Started
 
 Follow these steps to set up and run the project on your local machine:
