@@ -23,3 +23,5 @@ class JWTBearer(HTTPBearer):
         
         if datetime.utcnow() > expire:
             raise credentials_exception
+        
+        return user
