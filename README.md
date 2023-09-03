@@ -12,7 +12,8 @@ Follow these steps to set up and run the project on your local machine:
 ```sh 
 git clone git@github.com:vcjuliocesar/pynotes-api.git
 ```
-rename env.example by .env
+**Create enviroment file**
+rename .env.example by .env
 
 **Create a Virtual Environment:**
 ```sh
