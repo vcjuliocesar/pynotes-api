@@ -12,7 +12,8 @@ db = Session()
 
 @user_router.post('/users', tags=['Auth'], response_model=User, status_code=status.HTTP_200_OK)
 def create_user(user: UserCreate):
-    check_user_exists(user)
+    if check_user_exists(user):
+        return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST, content={"message": "User already exists"})
 
     UserService(db).create_user(user)
 
@@ -20,21 +21,21 @@ def create_user(user: UserCreate):
 
 
 def check_user_exists(user):
-    if UserService(db).get_user_by_email(email=user.email):
-        return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST, content={"message": "User already exists"})
+    return bool(UserService(db).get_user_by_email(email=user.email))
 
 
 @user_router.post('/login', tags=['Auth'], status_code=status.HTTP_200_OK)
 def login(user: UserCreate):
-    validate_password(user)
+
+    if validates_password(user):
+        return JSONResponse(status_code=status.HTTP_401_UNAUTHORIZED, content={"message": "Unauthorized"})
 
     token: str = create_token(user.dict())
 
     return JSONResponse(status_code=status.HTTP_200_OK, content=token)
 
 
-def validate_password(user):
+def validates_password(user):
     user_found = UserService(db).get_user_by_email(email=user.email)
 
-    if not (user_found and Auth().verify_password(user.password, user_found.password)):
-        return JSONResponse(status_code=status.HTTP_401_UNAUTHORIZED, content={"message": "Unauthorized"})
+    return not bool(check_user_exists(user) and Auth().verify_password(user.password, user_found.password))
